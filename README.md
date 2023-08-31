@@ -9,4 +9,4 @@ Simplify FiveM Server Project Setup with an Electron App Effortlessly set up you
 </ul>
 
 
-## 2023 SuperCoolNinja.
+## ®2023 SuperCoolNinja.
