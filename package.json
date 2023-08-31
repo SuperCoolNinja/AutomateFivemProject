@@ -1,0 +1,24 @@
+{
+  "author": "SuperCoolNinja",
+  "name": "automation",
+  "version": "1.0.0",
+  "description": "Simplify FiveM Server Project Setup with an Electron App.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "electron .",
+    "build": "soon"
+  },
+  "keywords": ["JS", "FiveM", "automatisation"],
+  "license": "LGPL-3.0-only",
+  "dependencies": {
+    "cheerio": "1.0.0-rc.12",
+    "fs": "0.0.1-security",
+    "install": "^0.13.0",
+    "node-7z": "^3.0.0",
+    "node-fetch": "2.6.5",
+    "npm": "^9.8.1"
+  },
+  "devDependencies": {
+    "electron": "^26.1.0"
+  }
+}

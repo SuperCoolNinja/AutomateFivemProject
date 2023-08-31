@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Electron App</title>
+  </head>
+
+  <!-- UGLY DESIGN MADE FOR PURPOSE, THIS ONE IS FOR PUBLIC RELEASE. -->
+  <body>
+    <h1>Fivem Project Builder</h1>
+    <button id="generateButton">Generate</button>
+    <p id="statusMessage"><span id="statusText"></span></p>
+    <p>By SuperCoolNinja</p>
+    <script>
+      const { ipcRenderer } = require("electron");
+
+      const generateButton = document.getElementById("generateButton");
+      const statusText = document.getElementById("statusText");
+
+      generateButton.addEventListener("click", () => {
+        ipcRenderer.send("generate");
+        statusText.textContent = "Generating...";
+      });
+
+      ipcRenderer.on("status-update", (event, message) => {
+        statusText.textContent = message;
+      });
+    </script>
+  </body>
+</html>
