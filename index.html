@@ -1,35 +1,20 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Fivem Project Builder By SuperCoolNinja V1.0</title>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-  </head>
-
-  <!-- UGLY DESIGN MADE FOR PURPOSE, THIS ONE IS FOR PUBLIC RELEASE. -->
-  <body>
-    <div class="bg">
-      <div class="main">
-        <h1 class="text-center title">Installation</h1>
-        <button id="generateButton">Generate</button>
-        <p id="statusMessage"><span id="statusText">Generate your server with one click.</span></p>
-      </div>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fivem Project Builder By SuperCoolNinja V1.0</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg">
+    <div class="main">
+      <h1 class="text-center title">Installation</h1>
+      <button id="generateButton">Generate</button>
+      <p id="statusMessage"><span id="statusText">Generate your server with one click.</span></p>
     </div>
+  </div>
 
-    <script>
-      const { ipcRenderer } = require("electron");
-
-      const generateButton = document.getElementById("generateButton");
-      const statusText = document.getElementById("statusText");
-
-      generateButton.addEventListener("click", () => {
-        ipcRenderer.send("generate");
-        statusText.textContent = "Generating...";
-      });
-
-      ipcRenderer.on("status-update", (event, message) => {
-        statusText.textContent = message;
-      });
-    </script>
-  </body>
+  <script src="renderer.js"></script>
+</body>
 </html>
