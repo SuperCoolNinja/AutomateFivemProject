@@ -1,9 +1,11 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const fs = require("fs");
+const fse = require("fs-extra"); // Importez fs-extra
 const path = require("path");
 const cheerio = require("cheerio");
 const Seven = require("node-7z");
 const fetch = require("node-fetch");
+const simpleGit = require("simple-git");
 
 let mainWindow;
 
@@ -41,7 +43,8 @@ ipcMain.on("generate", async (event) => {
     event.sender.send("status-update", message);
   };
 
-  downloadFiveMArtifacts(statusUpdate);
+  // Appel de la fonction pour télécharger et extraire les artefacts
+  await downloadFiveMArtifacts(statusUpdate);
 });
 
 async function downloadAndExtractArtifact(
@@ -50,13 +53,13 @@ async function downloadAndExtractArtifact(
   statusUpdate = null
 ) {
   try {
-    // Download the artifact
+    // Téléchargez l'artefact
     const artifactResponse = await fetch(artifactURL);
     const artifactBuffer = await artifactResponse.buffer();
 
     statusUpdate("Downloading...");
 
-    // Save the artifact in the server directory
+    // Enregistrez l'artefact dans le répertoire du serveur
     const artifactFileName = path.basename(artifactURL);
     const artifactFilePath = path.join(
       __dirname,
@@ -67,7 +70,7 @@ async function downloadAndExtractArtifact(
 
     statusUpdate("Extracting...");
 
-    // Extract the artifact using node-7z
+    // Extrayez l'artefact en utilisant node-7z
     const myStream = Seven.extractFull(
       artifactFilePath,
       path.join(__dirname, serverDirectoryName)
@@ -77,9 +80,72 @@ async function downloadAndExtractArtifact(
       myStream.on("error", reject);
     });
 
-    // Delete the 7z file after extraction
+    // Supprimez le fichier 7z après l'extraction
     fs.unlinkSync(artifactFilePath);
+
+    // Créez un fichier server.cfg
+    statusUpdate("Creating server.cfg...");
+    await createServerCfgFile(serverDirectoryName, statusUpdate);
+
+    // Clonez les fichiers cfx-server-data depuis GitHub
+    statusUpdate("Cloning cfx-server-data from GitHub...");
+    await cloneGitHubRepo(serverDirectoryName, statusUpdate);
+
     statusUpdate("Process completed successfully.");
+  } catch (error) {
+    statusUpdate(`An error occurred: ${error.message}`);
+  }
+}
+
+async function cloneGitHubRepo(serverDirectoryName, statusUpdate) {
+  try {
+    const repoUrl = "https://github.com/citizenfx/cfx-server-data.git";
+    const fivemServerPath = path.join(__dirname, serverDirectoryName);
+
+    // Clonez le référentiel GitHub dans un répertoire temporaire
+    const tempPath = path.join(__dirname);
+    const git = simpleGit(tempPath);
+    await git.clone(repoUrl);
+
+    statusUpdate("GitHub repository cloned successfully.");
+
+    // Déplacez le contenu du dossier enfant (par exemple, "cfx-server-data") dans FivemServer
+    const childRepoPath = path.join(tempPath, "cfx-server-data");
+    const childRepoContents = await fs.promises.readdir(childRepoPath);
+    for (const item of childRepoContents) {
+      const srcPath = path.join(childRepoPath, item);
+      const destPath = path.join(fivemServerPath, item);
+      await fse.move(srcPath, destPath, { overwrite: true });
+    }
+
+    // Supprimez le répertoire temporaire
+    await fse.remove(childRepoPath);
+
+    statusUpdate("Child repository contents moved to FivemServer.");
+  } catch (error) {
+    statusUpdate(
+      `An error occurred while cloning and moving the GitHub repository: ${error}`
+    );
+  }
+}
+
+async function createServerCfgFile(serverDirectoryName, statusUpdate) {
+  try {
+    // Lisez le contenu de la template server.cfg.template
+    const serverCfgTemplatePath = path.join(__dirname, "server.cfg.template");
+    const serverCfgContent = fs.readFileSync(serverCfgTemplatePath, "utf-8");
+
+    // Définissez le chemin du fichier server.cfg local
+    const serverCfgFilePath = path.join(
+      __dirname,
+      serverDirectoryName,
+      "server.cfg"
+    );
+
+    // Écrivez le contenu du fichier server.cfg local en utilisant le contenu de la template
+    fs.writeFileSync(serverCfgFilePath, serverCfgContent);
+
+    statusUpdate("server.cfg created successfully.");
   } catch (error) {
     statusUpdate(`An error occurred: ${error.message}`);
   }
@@ -88,7 +154,7 @@ async function downloadAndExtractArtifact(
 async function downloadFiveMArtifacts(statusUpdate) {
   try {
     const fetchOptions = {
-      timeout: 5000, // Set a timeout for the fetch request
+      timeout: 5000, // Définissez une limite de temps pour la requête fetch
     };
 
     const artifactURL =
@@ -106,14 +172,14 @@ async function downloadFiveMArtifacts(statusUpdate) {
     const $ = cheerio.load(html);
 
     const links = $("a");
-    const lastLink = links.eq(3); // Use last() to get the latest link
+    const lastLink = links.eq(3); // Utilisez last() pour obtenir le lien le plus récent
     const href = lastLink.attr("href");
 
     console.log("Last update found:", href);
 
     const serverDirectoryName = "FivemServer";
 
-    // Check if the server directory already exists
+    // Vérifiez si le répertoire du serveur existe déjà
     if (fs.existsSync(serverDirectoryName)) {
       console.error("Project directory already exists.");
       return;
@@ -121,9 +187,9 @@ async function downloadFiveMArtifacts(statusUpdate) {
 
     fs.mkdirSync(serverDirectoryName);
 
-    // Call the function to download and extract the artifact
+    // Appelez la fonction pour télécharger et extraire l'artefact
     await downloadAndExtractArtifact(
-      `${artifactURL}${href}`, // Combine base URL with href
+      `${artifactURL}${href}`, // Combinez l'URL de base avec href
       serverDirectoryName,
       statusUpdate
     );
