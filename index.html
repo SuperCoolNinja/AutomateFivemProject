@@ -2,15 +2,20 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Electron App</title>
+    <title>Fivem Project Builder By SuperCoolNinja V1.0</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
 
   <!-- UGLY DESIGN MADE FOR PURPOSE, THIS ONE IS FOR PUBLIC RELEASE. -->
   <body>
-    <h1>Fivem Project Builder</h1>
-    <button id="generateButton">Generate</button>
-    <p id="statusMessage"><span id="statusText"></span></p>
-    <p>By SuperCoolNinja</p>
+    <div class="bg">
+      <div class="main">
+        <h1 class="text-center title">Installation</h1>
+        <button id="generateButton">Generate</button>
+        <p id="statusMessage"><span id="statusText">Generate your server with one click.</span></p>
+      </div>
+    </div>
+
     <script>
       const { ipcRenderer } = require("electron");
 

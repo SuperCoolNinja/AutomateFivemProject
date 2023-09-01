@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&display=swap");
+
+/* RESET */
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+/* DEFAULT */
+body {
+  width: 100%;
+  height: 100vh;
+  font-family: "Inter", sans-serif;
+  position: relative;
+}
+
+/* GLOBAL */
+.text-center {
+  text-align: center;
+}
+
+.title {
+  font-size: 8rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: -2px -2px 0 #000, /* Ombre supérieure gauche */ 2px -2px 0 #000,
+    /* Ombre supérieure droite */ -2px 2px 0 #000,
+    /* Ombre inférieure gauche */ 2px 2px 0 #000; /* Ombre inférieure droite */
+}
+
+/* BACKGROUND */
+.bg {
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url("assets/1083267.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* CONTENT */
+.main {
+  margin-top: 3rem;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10rem;
+}
+
+/* Button */
+#generateButton {
+  padding: 2rem 4rem;
+  font-size: 3rem;
+  border-radius: 1rem;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background: #48232cb0;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+#generateButton:hover {
+  background: #48232ce5;
+  cursor: pointer;
+  /* Ajoutez une mise à l'échelle légère lors du survol */
+  transform: scale(1.05); /* Augmente la taille de 5% */
+}
+
+#statusText {
+  display: inline-block;
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.918);
+  font-weight: bold;
+  background: #0000009c;
+  padding: 2rem;
+  border-radius: 1rem;
+}

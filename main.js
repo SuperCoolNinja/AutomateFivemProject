@@ -1,11 +1,12 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const fs = require("fs");
-const fse = require("fs-extra"); // Importez fs-extra
+const fse = require("fs-extra");
 const path = require("path");
 const cheerio = require("cheerio");
-const Seven = require("node-7z");
+const sevenBin = require("7zip-bin");
 const fetch = require("node-fetch");
 const simpleGit = require("simple-git");
+const childProcess = require("child_process"); // Importez child_process
 
 let mainWindow;
 
@@ -70,15 +71,11 @@ async function downloadAndExtractArtifact(
 
     statusUpdate("Extracting...");
 
-    // Extrayez l'artefact en utilisant node-7z
-    const myStream = Seven.extractFull(
-      artifactFilePath,
-      path.join(__dirname, serverDirectoryName)
-    );
-    await new Promise((resolve, reject) => {
-      myStream.on("end", resolve);
-      myStream.on("error", reject);
-    });
+    // Utilisez 7zip-bin pour extraire l'artefact
+    const extractPath = path.join(__dirname, serverDirectoryName);
+    const sevenZipPath = sevenBin.path7za;
+    const extractionCommand = `"${sevenZipPath}" x "${artifactFilePath}" -o"${extractPath}" -r`;
+    childProcess.execSync(extractionCommand);
 
     // Supprimez le fichier 7z après l'extraction
     fs.unlinkSync(artifactFilePath);
@@ -96,7 +93,6 @@ async function downloadAndExtractArtifact(
     statusUpdate(`An error occurred: ${error.message}`);
   }
 }
-
 async function cloneGitHubRepo(serverDirectoryName, statusUpdate) {
   try {
     const repoUrl = "https://github.com/citizenfx/cfx-server-data.git";
@@ -162,6 +158,9 @@ async function downloadFiveMArtifacts(statusUpdate) {
     const response = await fetch(artifactURL, fetchOptions);
 
     if (!response.ok) {
+      statusUpdate(
+        `Server response error: ${response.status} ${response.statusText}`
+      );
       console.error(
         `Server response error: ${response.status} ${response.statusText}`
       );
@@ -181,7 +180,7 @@ async function downloadFiveMArtifacts(statusUpdate) {
 
     // Vérifiez si le répertoire du serveur existe déjà
     if (fs.existsSync(serverDirectoryName)) {
-      console.error("Project directory already exists.");
+      statusUpdate(`Project directory already exists.`);
       return;
     }
 
@@ -194,6 +193,7 @@ async function downloadFiveMArtifacts(statusUpdate) {
       statusUpdate
     );
   } catch (error) {
+    statusUpdate(`An error occurred: ${error}`);
     console.error(`An error occurred: ${error}`);
   }
 }
