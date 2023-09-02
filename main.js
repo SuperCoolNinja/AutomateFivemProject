@@ -76,36 +76,60 @@ async function downloadAndExtractArtifact(
 
     // Set the extraction path
     const extractPath = path.join(process.cwd(), serverDirectoryName);
-    const sevenZipPath = sevenBin.path7za;
+    // Obtenir le chemin vers app.asar.unpacked
+    const asarUnpackedPath = `${app.getAppPath()}.unpacked`;
 
-    statusUpdate(`7zPATH: ${sevenZipPath}\nartifactFilePath: ${artifactFilePath}\nExtractPath: ${extractPath}`);
+    // Vérifier si le fichier 7za.exe existe dans app.asar.unpacked/node_modules/7zip-bin/win/x64/
+    const asarPath = path.join(
+      asarUnpackedPath,
+      "node_modules",
+      "7zip-bin",
+      "win",
+      "x64"
+    );
+    const asarFile = path.join(asarPath, "7za.exe");
+
+    let sevenZipPath;
+
+    // Vérifier si le fichier 7za.exe existe dans app.asar.unpacked/node_modules/7zip-bin/win/x64/
+    if (fs.existsSync(asarFile)) {
+      sevenZipPath = asarFile;
+    } else {
+      // Utiliser le chemin par défaut
+      sevenZipPath = sevenBin.path7za;
+    }
+
+    statusUpdate(
+      `7zPATH: ${sevenZipPath}\nartifactFilePath: ${artifactFilePath}\nExtractPath: ${extractPath}`
+    );
 
     // Use 7zip-bin to extract the artifact
-    const extractionCommand = `"${sevenZipPath}" x "${artifactFilePath}" -o"${extractPath}" -r`;
+    const extractionCommand = `"${sevenZipPath}" x "${artifactFilePath}" -o"${extractPath}"`;
 
-    // try {
-    //   statusUpdate("Extracting...");
-    //   childProcess.execSync(extractionCommand);
-    //   statusUpdate("Extraction completed.");
-    // } catch (extractionError) {
-    //   console.error(`Extraction Error: ${extractionError}`);
-    //   statusUpdate(`Extraction Error: ${extractionError.message}`);
-    // }
+    try {
+      statusUpdate("Extracting...");
+      childProcess.execSync(extractionCommand);
+      statusUpdate("Extraction completed.");
+    } catch (extractionError) {
+      console.error(`Extraction Error: ${extractionError}`);
+      statusUpdate(`Extraction Error: ${extractionError.message}`);
+    } finally {
+      fs.unlinkSync(artifactFilePath);
+    }
 
-    // // Create a server.cfg file
-    // statusUpdate("Creating server.cfg...");
-    // await createServerCfgFile(serverDirectoryName, statusUpdate);
+    // Create a server.cfg file
+    statusUpdate("Creating server.cfg...");
+    await createServerCfgFile(serverDirectoryName, statusUpdate);
 
-    // // Clone cfx-server-data files from GitHub
-    // statusUpdate("Cloning cfx-server-data from GitHub...");
-    // await cloneGitHubRepo(serverDirectoryName, statusUpdate);
+    // Clone cfx-server-data files from GitHub
+    statusUpdate("Cloning cfx-server-data from GitHub...");
+    await cloneGitHubRepo(serverDirectoryName, statusUpdate);
 
-    // statusUpdate("Process completed successfully.");
+    statusUpdate("Process completed successfully.");
   } catch (error) {
     statusUpdate(`An error occurred: ${error.message}`);
   }
 }
-
 
 async function cloneGitHubRepo(serverDirectoryName, statusUpdate) {
   try {
