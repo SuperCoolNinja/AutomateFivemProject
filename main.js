@@ -174,7 +174,7 @@ async function downloadFiveMArtifacts(statusUpdate) {
     const lastLink = links.eq(3); // Utilisez last() pour obtenir le lien le plus récent
     const href = lastLink.attr("href");
 
-    console.log("Last update found:", href);
+    // console.log("Last update found:", href);
 
     const serverDirectoryName = "FivemServer";
 
