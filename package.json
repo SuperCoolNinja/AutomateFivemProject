@@ -20,12 +20,6 @@
     },
     "files": [
       "**/*"
-    ],
-    "extraResources": [
-      {
-        "from": "assets",
-        "to": "assets"
-      }
     ]
   },
   "config": {

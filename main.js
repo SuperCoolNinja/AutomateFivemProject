@@ -68,47 +68,52 @@ async function downloadAndExtractArtifact(
 
     statusUpdate("Downloading...");
 
-    // Save the artifact to the server directory
+    // Save the artifact to the FivemServer directory
     const artifactFileName = path.basename(artifactURL);
-    const artifactFilePath = path.join(
-      __dirname,
-      serverDirectoryName,
-      artifactFileName
-    );
+    const fivemServerPath = path.join(process.cwd(), serverDirectoryName);
+    const artifactFilePath = path.join(fivemServerPath, artifactFileName);
     fs.writeFileSync(artifactFilePath, artifactBuffer);
 
-    statusUpdate("Extracting...");
+    // Set the extraction path
+    const extractPath = path.join(process.cwd(), serverDirectoryName);
+    const sevenZipPath = sevenBin.path7za;
+
+    statusUpdate(`7zPATH: ${sevenZipPath}\nartifactFilePath: ${artifactFilePath}\nExtractPath: ${extractPath}`);
 
     // Use 7zip-bin to extract the artifact
-    const extractPath = path.join(__dirname, serverDirectoryName);
-    const sevenZipPath = sevenBin.path7za;
     const extractionCommand = `"${sevenZipPath}" x "${artifactFilePath}" -o"${extractPath}" -r`;
-    childProcess.execSync(extractionCommand);
 
-    // Delete the 7z file after extraction
-    fs.unlinkSync(artifactFilePath);
+    // try {
+    //   statusUpdate("Extracting...");
+    //   childProcess.execSync(extractionCommand);
+    //   statusUpdate("Extraction completed.");
+    // } catch (extractionError) {
+    //   console.error(`Extraction Error: ${extractionError}`);
+    //   statusUpdate(`Extraction Error: ${extractionError.message}`);
+    // }
 
-    // Create a server.cfg file
-    statusUpdate("Creating server.cfg...");
-    await createServerCfgFile(serverDirectoryName, statusUpdate);
+    // // Create a server.cfg file
+    // statusUpdate("Creating server.cfg...");
+    // await createServerCfgFile(serverDirectoryName, statusUpdate);
 
-    // Clone cfx-server-data files from GitHub
-    statusUpdate("Cloning cfx-server-data from GitHub...");
-    await cloneGitHubRepo(serverDirectoryName, statusUpdate);
+    // // Clone cfx-server-data files from GitHub
+    // statusUpdate("Cloning cfx-server-data from GitHub...");
+    // await cloneGitHubRepo(serverDirectoryName, statusUpdate);
 
-    statusUpdate("Process completed successfully.");
+    // statusUpdate("Process completed successfully.");
   } catch (error) {
     statusUpdate(`An error occurred: ${error.message}`);
   }
 }
 
+
 async function cloneGitHubRepo(serverDirectoryName, statusUpdate) {
   try {
     const repoUrl = "https://github.com/citizenfx/cfx-server-data.git";
-    const fivemServerPath = path.join(__dirname, serverDirectoryName);
+    const fivemServerPath = path.join(process.cwd(), serverDirectoryName);
 
     // Clone the GitHub repository into a temporary directory
-    const tempPath = path.join(__dirname);
+    const tempPath = path.join(process.cwd());
     const git = simpleGit(tempPath);
     await git.clone(repoUrl);
 
@@ -137,12 +142,15 @@ async function cloneGitHubRepo(serverDirectoryName, statusUpdate) {
 async function createServerCfgFile(serverDirectoryName, statusUpdate) {
   try {
     // Read the content of the server.cfg.template
-    const serverCfgTemplatePath = path.join(__dirname, "server.cfg.template");
+    const serverCfgTemplatePath = path.join(
+      process.cwd(),
+      "server.cfg.template"
+    );
     const serverCfgContent = fs.readFileSync(serverCfgTemplatePath, "utf-8");
 
     // Set the path for the local server.cfg file
     const serverCfgFilePath = path.join(
-      __dirname,
+      process.cwd(),
       serverDirectoryName,
       "server.cfg"
     );
@@ -193,11 +201,13 @@ async function downloadFiveMArtifacts(statusUpdate) {
       return;
     }
 
-    fs.mkdirSync(serverDirectoryName);
+    fs.mkdirSync(path.join(process.cwd(), serverDirectoryName), {
+      recursive: true,
+    });
 
     // Call the function to download and extract the artifact
     await downloadAndExtractArtifact(
-      `${artifactURL}${href}`, // Combine the base URL with href
+      `${artifactURL}${href}`,
       serverDirectoryName,
       statusUpdate
     );
