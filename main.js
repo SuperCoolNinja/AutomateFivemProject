@@ -56,6 +56,14 @@ async function downloadAndExtractArtifact(
   try {
     // Download the artifact
     const artifactResponse = await fetch(artifactURL);
+
+    statusUpdate("Fetch done");
+
+    if (!artifactResponse.ok) {
+      statusUpdate(`HTTP error! Status: ${artifactResponse.status}`);
+      throw new Error(`HTTP error! Status: ${artifactResponse.status}`);
+    }
+
     const artifactBuffer = await artifactResponse.buffer();
 
     statusUpdate("Downloading...");
