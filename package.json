@@ -1,7 +1,8 @@
 {
   "name": "AutomateFivemProject",
-  "version": "1.0.0",
+  "author": "SuperCoolNinja",
   "description": "Simplify FiveM Server Project Setup with an Electron App.",
+  "version": "1.0.0",
   "main": "main.js",
   "scripts": {
     "dev": "electron .",
@@ -20,6 +21,12 @@
     },
     "files": [
       "**/*"
+    ],
+    "extraFiles": [
+      {
+        "from": "./server.cfg.template",
+        "to": "server.cfg.template"
+      }
     ]
   },
   "config": {
