@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 
 ## Description : 
-Simplify FiveM Server Project Setup with an Electron App Effortlessly set up your FiveM server projects using this user-friendly Electron application. Streamline the process and get started with your FiveM server quickly and easily.
+Set up your FiveM server projects using this user-friendly Electron application.
 
 
 # Tools Required : 
