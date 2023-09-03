@@ -19,9 +19,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 Set up your FiveM server projects using this user-friendly Electron application.
 
 
-# Tools Required : 
+# Tools Required for developer: 
 <ul>
-  <li>Download 7-Zip <a href="https://www.7-zip.org/download.html">here</a> required to be able to extract files.</li>
   <li>Node JS <a href="https://nodejs.org/fr">here</a></li>
 </ul>
 
