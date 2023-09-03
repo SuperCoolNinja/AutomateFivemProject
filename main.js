@@ -9,6 +9,8 @@ const simpleGit = require("simple-git");
 const childProcess = require("child_process");
 
 let mainWindow;
+let artifact_version = 1; // ARTIFACT VERSION. 1 = master 3 = latest version.
+let licenseKey = "";
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
@@ -39,13 +41,22 @@ app.on("window-all-closed", () => {
   }
 });
 
-ipcMain.on("generate", async (event) => {
+ipcMain.on("generate", async (event, license) => {
   const statusUpdate = (message) => {
     event.sender.send("status-update", message);
   };
 
+  licenseKey = license;
+
+  console.log(licenseKey);
+
   // Call the function to download and extract artifacts
   await downloadFiveMArtifacts(statusUpdate);
+});
+
+ipcMain.on("updateLinks", (event, selectedValue) => {
+  artifact_version = selectedValue;
+  console.log("New links value:", artifact_version);
 });
 
 async function downloadAndExtractArtifact(
@@ -172,6 +183,11 @@ async function createServerCfgFile(serverDirectoryName, statusUpdate) {
     );
     const serverCfgContent = fs.readFileSync(serverCfgTemplatePath, "utf-8");
 
+    const updatedServerCfgContent = serverCfgContent.replace(
+      /change_licensekey/g,
+      licenseKey
+    );
+
     // Set the path for the local server.cfg file
     const serverCfgFilePath = path.join(
       process.cwd(),
@@ -180,7 +196,7 @@ async function createServerCfgFile(serverDirectoryName, statusUpdate) {
     );
 
     // Write the content of the local server.cfg file using the template content
-    fs.writeFileSync(serverCfgFilePath, serverCfgContent);
+    fs.writeFileSync(serverCfgFilePath, updatedServerCfgContent);
 
     statusUpdate("server.cfg created successfully.");
   } catch (error) {
@@ -212,10 +228,10 @@ async function downloadFiveMArtifacts(statusUpdate) {
     const $ = cheerio.load(html);
 
     const links = $("a");
-    const lastLink = links.eq(3); // Use last() to get the most recent link
+    const lastLink = links.eq(artifact_version);
     const href = lastLink.attr("href");
 
-    // console.log("Last update found:", href);
+    console.log("Last update found:", href);
 
     const serverDirectoryName = "FivemServer";
 

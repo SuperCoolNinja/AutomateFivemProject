@@ -1,20 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fivem Project Builder By SuperCoolNinja V1.0</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="bg">
-    <div class="main">
-      <h1 class="text-center title">Installation</h1>
-      <button id="generateButton">Generate</button>
-      <p id="statusMessage"><span id="statusText">Generate your server with one click.</span></p>
-    </div>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fivem Project Builder By SuperCoolNinja V1.0</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg">
+      <div class="main">
+        <h1 class="text-center title">Installation</h1>
 
-  <script src="renderer.js"></script>
-</body>
+        <div class="container">
+          <!-- Sélecteur (dropdown selector) avec deux options -->
+          <div>
+            <label class="label" for="license">Artifacts version</label>
+            <select id="optionsSelector">
+              <option id="option1" value="1">Latest recommended</option>
+              <option id="option2" value="3">Lastest version</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="label" for="license">License Key</label>
+            <input
+              type="text"
+              placeholder="cfxk_xxxxxxxxxxxxxxxxxxxx_xxxxx"
+              id="license"
+            />
+            <p id="licenseError" class="error-message">Please enter a license key.</p>
+
+            <p class="link">
+              find out your licenseKey in
+              <a href="https://keymaster.fivem.net/" target="_blank"
+                >Keymaster</a
+              >.
+            </p>
+          </div>
+
+          <button id="generateButton">Generate</button>
+        </div>
+
+        <p id="statusMessage">
+          <span id="statusText">Generate your server with one click.</span>
+        </p>
+      </div>
+    </div>
+
+    <script src="renderer.js"></script>
+  </body>
 </html>

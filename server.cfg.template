@@ -78,4 +78,4 @@ sv_maxclients 48
 set steam_webApiKey ""
 
 # License key for your server (https://keymaster.fivem.net)
-sv_licenseKey changeme
+sv_licenseKey change_licensekey
