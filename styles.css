@@ -106,19 +106,43 @@ body {
   padding: 5rem;
 }
 
+/* Checkbox */
+#runLocalModeCheckbox {
+  width: 1.3em;
+  height: 1.3em;
+  background-color: rgba(255, 255, 255, 0.068);
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #000000;
+  outline: none;
+  cursor: pointer;
+}
+
 /* TEXT input */
 .error-message {
   padding: 0 1rem;
   display: none;
-  color: rgba(0, 0, 0, 0.856); 
+  color: rgba(0, 0, 0, 0.856);
   font-size: 1.4rem;
   font-weight: bold;
 }
 .error-box {
-  outline: 0.1rem solid rgba(253, 39, 39, 0.863); 
+  outline: 0.1rem solid rgba(253, 39, 39, 0.863);
+}
+.info {
+  padding: 0.5rem;
+  font-size: 1.3rem;
+  color: #ffffffc9;
+}
+.info-important
+{
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #000000;
 }
 .label {
-  padding: 1rem;
+  padding: 0.5rem;
   font-size: 1.5rem;
   font-weight: bold;
 }

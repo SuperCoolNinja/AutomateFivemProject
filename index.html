@@ -12,7 +12,6 @@
         <h1 class="text-center title">Installation</h1>
 
         <div class="container">
-          <!-- Sélecteur (dropdown selector) avec deux options -->
           <div>
             <label class="label" for="license">Artifacts version</label>
             <select id="optionsSelector">
@@ -21,20 +20,36 @@
             </select>
           </div>
 
-          <div>
+          <div id="license_container">
             <label class="label" for="license">License Key</label>
             <input
               type="text"
               placeholder="cfxk_xxxxxxxxxxxxxxxxxxxx_xxxxx"
               id="license"
             />
-            <p id="licenseError" class="error-message">Please enter a license key.</p>
+
+            <p id="licenseError" class="error-message">
+              Please enter a license key.
+            </p>
 
             <p class="link">
               find out your licenseKey in
               <a href="https://keymaster.fivem.net/" target="_blank"
                 >Keymaster</a
               >.
+            </p>
+          </div>
+
+          <div>
+            <label class="label">bypass keymaster</label>
+            <input type="checkbox" id="runLocalModeCheckbox" />
+            <span class="info-important"
+              >(Make sure you know what you're doing.)</span
+            >
+            <p class="info">
+              this allow you to run your server without license key.
+              <br />
+              usefull when the service are broken or for quick local test.
             </p>
           </div>
 

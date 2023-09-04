@@ -3,29 +3,39 @@ const { ipcRenderer } = require("electron");
 const generateButton = document.getElementById("generateButton");
 const statusText = document.getElementById("statusText");
 
-// Sélectionnez l'élément input par son ID
 const licenseInput = document.getElementById("license");
+
+const runLocalModeCheckbox = document.getElementById("runLocalModeCheckbox");
+const license_container = document.getElementById("license_container");
+
+
+runLocalModeCheckbox.addEventListener("change", () => {
+  license_container.style.display = runLocalModeCheckbox.checked ? "none" : "block";
+});
 
 generateButton.addEventListener("click", () => {
   const licenseKey = licenseInput.value;
-  
-  if (licenseKey.trim() === "") {
-    licenseInput.classList.add("error-box");
-    licenseError.style.display = "block";
-    return;
-  }
 
-  if (!licenseKey.startsWith("cfxk_")) {
-    licenseInput.classList.add("error-box");
-    licenseError.textContent = "License key must start with 'cfxk_'.";
-    licenseError.style.display = "block";
-    return;
+  if (!runLocalModeCheckbox.checked) {
+    if (licenseKey.trim() === "") {
+      licenseInput.classList.add("error-box");
+      licenseError.style.display = "block";
+      return;
+    }
+
+    if (!licenseKey.startsWith("cfxk_")) {
+      licenseInput.classList.add("error-box");
+      licenseError.textContent = "License key must start with 'cfxk_'.";
+      licenseError.style.display = "block";
+      return;
+    }
+  } else {
   }
 
   licenseInput.classList.remove("error-box");
   licenseError.style.display = "none";
 
-  ipcRenderer.send("generate", licenseKey);
+  ipcRenderer.send("generate", licenseKey, runLocalModeCheckbox.checked);
   statusText.textContent = "Generating...";
 });
 

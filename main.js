@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, screen  } = require("electron");
 const fs = require("fs");
 const fse = require("fs-extra");
 const path = require("path");
@@ -11,11 +11,15 @@ const childProcess = require("child_process");
 let mainWindow;
 let artifact_version = 1; // ARTIFACT VERSION. 1 = master 3 = latest version.
 let licenseKey = "";
+let isLocalModeEnabled = false;
+const serverDirectoryName = "FivemServer";
 
 const createWindow = () => {
+  const mainScreen = screen.getPrimaryDisplay();
+  const { width, height } = mainScreen.size;
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: width,
+    height: height,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -41,14 +45,15 @@ app.on("window-all-closed", () => {
   }
 });
 
-ipcMain.on("generate", async (event, license) => {
+ipcMain.on("generate", async (event, license, bLocalMode) => {
   const statusUpdate = (message) => {
     event.sender.send("status-update", message);
   };
 
   licenseKey = license;
+  isLocalModeEnabled = bLocalMode;
 
-  console.log(licenseKey);
+  console.log(bLocalMode);
 
   // Call the function to download and extract artifacts
   await downloadFiveMArtifacts(statusUpdate);
@@ -136,6 +141,10 @@ async function downloadAndExtractArtifact(
     statusUpdate("Cloning cfx-server-data from GitHub...");
     await cloneGitHubRepo(serverDirectoryName, statusUpdate);
 
+    if (isLocalModeEnabled) {
+      removeSvadhesiveKey();
+    }
+
     statusUpdate("Process completed successfully.");
   } catch (error) {
     statusUpdate(`An error occurred: ${error.message}`);
@@ -170,6 +179,41 @@ async function cloneGitHubRepo(serverDirectoryName, statusUpdate) {
   } catch (error) {
     statusUpdate(
       `An error occurred while cloning and moving the GitHub repository: ${error}`
+    );
+  }
+}
+
+async function removeSvadhesiveKey() {
+  const fivemServerPath = path.join(process.cwd(), serverDirectoryName);
+  const componentFilePath = path.join(fivemServerPath, "components.json");
+
+  try {
+    // Read the JSON file content synchronously
+    const componentData = require(componentFilePath);
+
+    // Search for the index of the "svadhesive" key in the array
+    const svadhesiveIndex = componentData.indexOf("svadhesive");
+
+    if (svadhesiveIndex !== -1) {
+      // Remove the "svadhesive" key using splice
+      componentData.splice(svadhesiveIndex, 1);
+
+      // Write the updated JSON array to the component.json file synchronously
+      fs.writeFileSync(
+        componentFilePath,
+        JSON.stringify(componentData, null, 2)
+      );
+
+      console.log("The 'svadhesive' keyword has been successfully removed.");
+    } else {
+      console.log(
+        "The 'svadhesive' keyword does not exist in the components.json file."
+      );
+    }
+  } catch (error) {
+    console.error(
+      "An error occurred while manipulating the components.json file:",
+      error
     );
   }
 }
@@ -232,8 +276,6 @@ async function downloadFiveMArtifacts(statusUpdate) {
     const href = lastLink.attr("href");
 
     console.log("Last update found:", href);
-
-    const serverDirectoryName = "FivemServer";
 
     // Check if the server directory already exists
     if (fs.existsSync(serverDirectoryName)) {
