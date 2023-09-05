@@ -3,7 +3,7 @@
   "author": "SuperCoolNinja",
   "description": "Simplify FiveM Server Project Setup with an Electron App.",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "main/main.js",
   "scripts": {
     "dev": "electron .",
     "start": "electron-forge start",
@@ -24,8 +24,8 @@
     ],
     "extraFiles": [
       {
-        "from": "./server.cfg.template",
-        "to": "server.cfg.template"
+        "from": "./assets/server.cfg.template",
+        "to": "./assets/server.cfg.template"
       }
     ]
   },

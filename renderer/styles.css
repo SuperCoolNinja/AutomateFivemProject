@@ -50,12 +50,11 @@ body {
   top: 0;
   width: 100%;
   height: 100vh;
-  background-image: url("assets/bgg.jpg");
+  background-image: url("../assets/bgg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-/* Créez une superposition avec une couleur de fond */
 .bg::after {
   content: "";
   position: absolute;
@@ -63,13 +62,8 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* Couleur de fond avec une opacité (dans cet exemple, 50%) */
-  backdrop-filter: blur(0.7rem); /* Effet de flou sur la superposition */
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(0.7rem);
 }
 
 /* CONTENT */
@@ -134,8 +128,7 @@ body {
   font-size: 1.3rem;
   color: #ffffffc9;
 }
-.info-important
-{
+.info-important {
   padding: 0.5rem;
   font-size: 1.1rem;
   font-weight: bold;
@@ -199,7 +192,7 @@ body {
 #generateButton:hover {
   background: #ffffff8c;
   cursor: pointer;
-  transform: scale(1.05); /* Augmente la taille de 5% */
+  transform: scale(1.05);
 }
 
 #statusText {
