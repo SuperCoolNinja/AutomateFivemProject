@@ -31,7 +31,7 @@ app.on("window-all-closed", () => {
 });
 
 ipcMain.on("generate", async (event, license, bLocalMode) => {
-  globalConfig.licenseKey = license;
+  globalConfig.licenseKey = license || "none";
   globalConfig.isLocalModeEnabled = bLocalMode;
 
   const statusUpdate = (message) => {

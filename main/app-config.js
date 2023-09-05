@@ -1,6 +1,6 @@
 const globalConfig = {
   artifact_version: 1,
-  licenseKey: "",
+  licenseKey: "none",
   isLocalModeEnabled: false,
   serverDirectoryName: "FivemServer",
   artifactsURL:

@@ -8,9 +8,10 @@ const licenseInput = document.getElementById("license");
 const runLocalModeCheckbox = document.getElementById("runLocalModeCheckbox");
 const license_container = document.getElementById("license_container");
 
-
 runLocalModeCheckbox.addEventListener("change", () => {
-  license_container.style.display = runLocalModeCheckbox.checked ? "none" : "block";
+  license_container.style.display = runLocalModeCheckbox.checked
+    ? "none"
+    : "block";
 });
 
 generateButton.addEventListener("click", () => {
@@ -29,7 +30,6 @@ generateButton.addEventListener("click", () => {
       licenseError.style.display = "block";
       return;
     }
-  } else {
   }
 
   licenseInput.classList.remove("error-box");

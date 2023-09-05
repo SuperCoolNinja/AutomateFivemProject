@@ -8,6 +8,7 @@ const { globalConfig } = require("../main/app-config");
 const {
   removeSvadhesiveKey,
   createServerCfgFile,
+  createLauncherBatFile,
 } = require("./file-operations");
 const childProcess = require("child_process");
 const { cloneGitHubRepo } = require("./git");
@@ -95,6 +96,9 @@ async function downloadAndExtractArtifact(
     if (globalConfig.isLocalModeEnabled) {
       removeSvadhesiveKey();
     }
+
+    //Create the .bat file that simplify you the way to start your server
+    createLauncherBatFile(fivemServerPath);
 
     statusUpdate("Process completed successfully.");
   } catch (error) {

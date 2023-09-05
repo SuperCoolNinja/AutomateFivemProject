@@ -3,7 +3,10 @@ const path = require("path");
 const { globalConfig } = require("../main/app-config");
 
 async function removeSvadhesiveKey() {
-  const fivemServerPath = path.join(process.cwd(), globalConfig.serverDirectoryName);
+  const fivemServerPath = path.join(
+    process.cwd(),
+    globalConfig.serverDirectoryName
+  );
   const componentFilePath = path.join(fivemServerPath, "components.json");
 
   try {
@@ -37,8 +40,6 @@ async function removeSvadhesiveKey() {
   }
 }
 
-
-
 async function createServerCfgFile(statusUpdate) {
   try {
     // Read the content of the server.cfg.template
@@ -69,7 +70,17 @@ async function createServerCfgFile(statusUpdate) {
   }
 }
 
+
+// Generation of the launcher named : run.bat
+async function createLauncherBatFile(fivemServerPath) {
+  const runBatFilePath = path.join(fivemServerPath, "run.bat");
+  const runBatContent = "FXServer.exe +exec server.cfg";
+
+  fs.writeFileSync(runBatFilePath, runBatContent);
+}
+
 module.exports = {
   createServerCfgFile,
+  createLauncherBatFile,
   removeSvadhesiveKey,
 };
