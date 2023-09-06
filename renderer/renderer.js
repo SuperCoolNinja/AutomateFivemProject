@@ -4,14 +4,13 @@ const generateButton = document.getElementById("generateButton");
 const statusText = document.getElementById("statusText");
 
 const licenseInput = document.getElementById("license");
+const keymasterLink = document.getElementById("keymaster");
 
 const runLocalModeCheckbox = document.getElementById("runLocalModeCheckbox");
-const license_container = document.getElementById("license_container");
 
 runLocalModeCheckbox.addEventListener("change", () => {
-  license_container.style.display = runLocalModeCheckbox.checked
-    ? "none"
-    : "block";
+  licenseInput.style.display = runLocalModeCheckbox.checked ? "none" : "block";
+  keymasterLink.style.display = runLocalModeCheckbox.checked ? "none" : "block";
 });
 
 generateButton.addEventListener("click", () => {
