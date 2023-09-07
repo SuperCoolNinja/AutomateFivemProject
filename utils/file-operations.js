@@ -72,11 +72,14 @@ async function createServerCfgFile(statusUpdate) {
   }
 }
 
-
 // Generation of the launcher named : run.bat
 async function createLauncherBatFile(fivemServerPath) {
   const runBatFilePath = path.join(fivemServerPath, "run.bat");
-  const runBatContent = "FXServer.exe +exec server.cfg";
+  let runBatContent = "FXServer.exe +exec server.cfg";
+
+  if (globalConfig.launcherOptions.trim() !== "") {
+    runBatContent += " " + globalConfig.launcherOptions;
+  }
 
   fs.writeFileSync(runBatFilePath, runBatContent);
 }

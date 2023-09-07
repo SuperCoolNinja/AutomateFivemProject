@@ -8,6 +8,7 @@ const globalConfig = {
   title: "",
   project_name: "",
   project_description: "",
+  launcherOptions : ""
 };
 
 module.exports = {

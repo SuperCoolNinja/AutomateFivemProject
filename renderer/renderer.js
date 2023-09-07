@@ -12,6 +12,7 @@ const titleInput = document.getElementById("hostname");
 const projectNameInput = document.getElementById("project_name");
 const projectDescriptionInput = document.getElementById("project_description");
 
+const launcherOptionsInput = document.getElementById("launcher_options");
 
 runLocalModeCheckbox.addEventListener("change", () => {
   licenseInput.style.display = runLocalModeCheckbox.checked ? "none" : "block";
@@ -23,6 +24,8 @@ generateButton.addEventListener("click", () => {
   const title = titleInput.value;
   const projectName = projectNameInput.value;
   const projectDescription = projectDescriptionInput.value;
+  const launcherOptions = launcherOptionsInput.value;
+
 
   if (!runLocalModeCheckbox.checked) {
     if (licenseKey.trim() === "") {
@@ -42,7 +45,7 @@ generateButton.addEventListener("click", () => {
   licenseInput.classList.remove("error-box");
   licenseError.style.display = "none";
 
-  ipcRenderer.send("generate", licenseKey, runLocalModeCheckbox.checked, title, projectName, projectDescription);
+  ipcRenderer.send("generate", licenseKey, runLocalModeCheckbox.checked, title, projectName, projectDescription, launcherOptions);
   statusText.textContent = "Generating...";
 });
 

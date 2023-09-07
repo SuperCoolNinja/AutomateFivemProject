@@ -38,7 +38,8 @@ ipcMain.on(
     bLocalMode,
     title,
     projectName,
-    projectDescription
+    projectDescription,
+    launcherOptions
   ) => {
     globalConfig.licenseKey = license || "none";
     globalConfig.isLocalModeEnabled = bLocalMode;
@@ -47,6 +48,7 @@ ipcMain.on(
     globalConfig.project_description =
       projectDescription ||
       "Description to change. FXServer generated with AutomateFivemProject by SuperCoolNinja.";
+    globalConfig.launcherOptions = launcherOptions;
 
     const statusUpdate = (message) => {
       event.sender.send("status-update", message);
