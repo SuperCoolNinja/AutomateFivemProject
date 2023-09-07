@@ -49,10 +49,12 @@ async function createServerCfgFile(statusUpdate) {
     );
     const serverCfgContent = fs.readFileSync(serverCfgTemplatePath, "utf-8");
 
-    const updatedServerCfgContent = serverCfgContent.replace(
-      /change_licensekey/g,
-      globalConfig.licenseKey
-    );
+    // Replace placeholders with actual values
+    const updatedServerCfgContent = serverCfgContent
+      .replace(/change_licensekey/g, globalConfig.licenseKey)
+      .replace(/change_hostname/g, globalConfig.title)
+      .replace(/change_project_name/g, globalConfig.project_name)
+      .replace(/change_project_description/g, globalConfig.project_description);
 
     // Set the path for the local server.cfg file
     const serverCfgFilePath = path.join(

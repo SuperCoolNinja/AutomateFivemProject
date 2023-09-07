@@ -12,6 +12,7 @@
         <h1 class="text-center title">Installation</h1>
 
         <div class="container">
+          <!-- Artifacts version -->
           <section>
             <label class="label" for="artifact">Artifacts version </label>
             <select id="optionsSelector" class="padding">
@@ -20,9 +21,10 @@
             </select>
           </section>
 
+          <!-- Keymaster -->
           <section>
-            <label class="label" >License Key</label>
-            <div class="wrapper_content_input">
+            <label class="label">Keymaster</label>
+            <div class="wrapper_content_input keymaster_input">
               <input
                 type="text"
                 placeholder="cfxk_xxxxxxxxxxxxxxxxxxxx_xxxxx"
@@ -43,7 +45,9 @@
 
               <div class="space-between">
                 <div>
-                  <label class="info padding" for="label">Disable license key (bypass keymaster)</label>
+                  <label class="info padding" for="label"
+                    >Disable license key (bypass keymaster)</label
+                  >
                   <p class="info gray padding">
                     this allow you to run your server without license key.
                     <br />
@@ -55,13 +59,54 @@
             </div>
           </section>
 
+          <!-- Hostname -->
+          <section>
+            <label class="label">Server title</label>
+            <div class="wrapper_content_input">
+              <input
+                type="text"
+                placeholder="FXServer, but unconfigured"
+                id="hostname"
+                class="item_input padding"
+              />
+            </div>
+          </section>
+
+          <!-- Project Name -->
+          <section>
+            <label class="label">Project name</label>
+            <div class="wrapper_content_input">
+              <input
+                type="text"
+                placeholder="My FXServer Project"
+                id="project_name"
+                class="item_input padding"
+              />
+            </div>
+          </section>
+
+          <!-- Project Description -->
+          <section>
+            <label class="label">Project description</label>
+            <div class="wrapper_content_input">
+              <textarea
+                class="item_input padding"
+                id="project_description"
+                cols="30"
+                rows="2"
+                placeholder="Default FXServer requiring configuration"
+              ></textarea>
+            </div>
+          </section>
         </div>
+
         <button id="generateButton">Generate</button>
 
         <p id="statusMessage">
           <span id="statusText">Generate your server with one click.</span>
         </p>
       </main>
+    </div>
     <script src="renderer.js"></script>
   </body>
 </html>

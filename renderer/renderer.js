@@ -8,6 +8,11 @@ const keymasterLink = document.getElementById("keymaster");
 
 const runLocalModeCheckbox = document.getElementById("runLocalModeCheckbox");
 
+const titleInput = document.getElementById("hostname");
+const projectNameInput = document.getElementById("project_name");
+const projectDescriptionInput = document.getElementById("project_description");
+
+
 runLocalModeCheckbox.addEventListener("change", () => {
   licenseInput.style.display = runLocalModeCheckbox.checked ? "none" : "block";
   keymasterLink.style.display = runLocalModeCheckbox.checked ? "none" : "block";
@@ -15,6 +20,9 @@ runLocalModeCheckbox.addEventListener("change", () => {
 
 generateButton.addEventListener("click", () => {
   const licenseKey = licenseInput.value;
+  const title = titleInput.value;
+  const projectName = projectNameInput.value;
+  const projectDescription = projectDescriptionInput.value;
 
   if (!runLocalModeCheckbox.checked) {
     if (licenseKey.trim() === "") {
@@ -34,7 +42,7 @@ generateButton.addEventListener("click", () => {
   licenseInput.classList.remove("error-box");
   licenseError.style.display = "none";
 
-  ipcRenderer.send("generate", licenseKey, runLocalModeCheckbox.checked);
+  ipcRenderer.send("generate", licenseKey, runLocalModeCheckbox.checked, title, projectName, projectDescription);
   statusText.textContent = "Generating...";
 });
 

@@ -44,7 +44,7 @@ input {
 
 .label {
   padding: 0.5rem;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
 }
 
@@ -133,7 +133,7 @@ main {
   backdrop-filter: blur(0.8rem);
   -webkit-backdrop-filter: blur(0.8rem);
   color: white;
-  gap: 4rem;
+  gap: 3rem;
   background: #00000034;
   overflow: auto;
 }
@@ -173,8 +173,11 @@ section {
   gap: 1rem;
   width: 50%;
   border-radius: 1rem;
+  font-size: 1.4rem;
+}
+
+.keymaster_input {
   background: #03030338;
-  padding: 1rem;
 }
 
 #optionsSelector {

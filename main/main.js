@@ -30,15 +30,30 @@ app.on("window-all-closed", () => {
   }
 });
 
-ipcMain.on("generate", async (event, license, bLocalMode) => {
-  globalConfig.licenseKey = license || "none";
-  globalConfig.isLocalModeEnabled = bLocalMode;
+ipcMain.on(
+  "generate",
+  async (
+    event,
+    license,
+    bLocalMode,
+    title,
+    projectName,
+    projectDescription
+  ) => {
+    globalConfig.licenseKey = license || "none";
+    globalConfig.isLocalModeEnabled = bLocalMode;
+    globalConfig.title = title || "FXServer Title";
+    globalConfig.project_name = projectName || "FXServer Project Name";
+    globalConfig.project_description =
+      projectDescription ||
+      "Description to change. FXServer generated with AutomateFivemProject by SuperCoolNinja.";
 
-  const statusUpdate = (message) => {
-    event.sender.send("status-update", message);
-  };
+    const statusUpdate = (message) => {
+      event.sender.send("status-update", message);
+    };
 
-  await downloadFiveMArtifacts(statusUpdate);
-});
+    await downloadFiveMArtifacts(statusUpdate);
+  }
+);
 
 initializeIpcHandlers(ipcMain, globalConfig);

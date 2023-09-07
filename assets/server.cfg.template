@@ -36,13 +36,13 @@ sets locale "root-AQ"
 #sets banner_connecting "https://url.to/image.png"
 
 # Set your server's hostname. This is not usually shown anywhere in listings.
-sv_hostname "FXServer, but unconfigured"
+sv_hostname "change_hostname"
 
 # Set your server's Project Name
-sets sv_projectName "My FXServer Project"
+sets sv_projectName "change_project_name"
 
 # Set your server's Project Description
-sets sv_projectDesc "Default FXServer requiring configuration"
+sets sv_projectDesc "change_project_description"
 
 # Set Game Build (https://docs.fivem.net/docs/server-manual/server-commands/#sv_enforcegamebuild-build)
 #sv_enforceGameBuild 2802
