@@ -66,22 +66,33 @@ async function createServerCfgFile(statusUpdate) {
     // Write the content of the local server.cfg file using the template content
     fs.writeFileSync(serverCfgFilePath, updatedServerCfgContent);
 
+    console.log("server.cfg created successfully.");
     statusUpdate("server.cfg created successfully.");
   } catch (error) {
+    console.error("An error occurred while creating server.cfg:", error);
     statusUpdate(`An error occurred: ${error.message}`);
   }
 }
 
 // Generation of the launcher named : run.bat
 async function createLauncherBatFile(fivemServerPath) {
-  const runBatFilePath = path.join(fivemServerPath, "run.bat");
-  let runBatContent = "FXServer.exe +exec server.cfg";
+  try {
+    const runBatFilePath = path.join(fivemServerPath, "run.bat");
+    let runBatContent = "FXServer.exe +exec server.cfg";
 
-  if (globalConfig.launcherOptions.trim() !== "") {
-    runBatContent += " " + globalConfig.launcherOptions;
+    if (globalConfig.launcherOptions.trim() !== "") {
+      runBatContent += " " + globalConfig.launcherOptions;
+    }
+
+    fs.writeFileSync(runBatFilePath, runBatContent);
+
+    console.log("Launcher BAT file created successfully.");
+  } catch (error) {
+    console.error(
+      "An error occurred while creating the Launcher BAT file:",
+      error
+    );
   }
-
-  fs.writeFileSync(runBatFilePath, runBatContent);
 }
 
 module.exports = {
