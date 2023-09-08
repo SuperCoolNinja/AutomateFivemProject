@@ -24,8 +24,7 @@ Set up your FiveM server projects using this user-friendly Electron application.
 
 ## Preview : 
 
-https://github.com/SuperCoolNinja/AutomateFivemProject/assets/28671231/b873b420-9c12-4986-ae22-379e38850d44
-
+https://www.youtube.com/watch?v=ghMi6j5vsII&t=1s
 
 
 
