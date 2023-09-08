@@ -19,6 +19,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 Set up your FiveM server projects using this user-friendly Electron application.
 
 
+![Visual](https://cdn.discordapp.com/attachments/554479498721099787/1149745193562689648/image.png)
+
+
+## Preview : 
+
+https://github.com/SuperCoolNinja/AutomateFivemProject/assets/28671231/b873b420-9c12-4986-ae22-379e38850d44
+
+
+
+
 # Tools Required for developer: 
 <ul>
   <li>Node JS <a href="https://nodejs.org/fr">here</a></li>
