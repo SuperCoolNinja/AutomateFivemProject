@@ -6,7 +6,6 @@
   "main": "main/main.js",
   "scripts": {
     "dev": "electron .",
-    "start": "electron-forge start",
     "build": "electron-builder --win"
   },
   "build": {
@@ -14,7 +13,7 @@
     "productName": "AutomateFivemProject",
     "win": {
       "target": "nsis-web",
-      "icon": "path/to/your/icon.ico"
+      "icon": "path/to/your/icon.ico (i don't have so yeah.)"
     },
     "directories": {
       "output": "dist"

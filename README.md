@@ -24,4 +24,30 @@ Set up your FiveM server projects using this user-friendly Electron application.
   <li>Node JS <a href="https://nodejs.org/fr">here</a></li>
 </ul>
 
+<br />
 
+
+> **CLI** : HOW TO USE THIS PROJECT : 
+
+> Run npm i to install dependencies.
+```
+  npm i
+```
+
+<br />
+
+> Run npm run dev to run the project in dev mode : 
+```
+  npm run dev
+```
+
+<br />
+
+> Run npm run build to build the project build goes into dist folder : 
+
+<p>dist/nsis-web contain the installer if you want to install the application.</p>
+<p>dist/win-unpacked contain the application to run.</p> 
+
+```
+  npm run build
+```
