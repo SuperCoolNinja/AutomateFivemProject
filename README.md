@@ -19,14 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 Set up your FiveM server projects using this user-friendly Electron application.
 
 
-![Visual](https://cdn.discordapp.com/attachments/554479498721099787/1149745193562689648/image.png)
-
-
-## Preview : 
-
-https://www.youtube.com/watch?v=ghMi6j5vsII&t=1s
-
-
 
 # Tools Required for developer: 
 <ul>
